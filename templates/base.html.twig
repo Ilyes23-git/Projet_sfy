@@ -1,17 +1,229 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
+    <title>{% block title %}Electro{% endblock %}</title>
+
+    {# Favicon #}
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
+
+    {# Google Fonts #}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700">
+
+    {# CSS #}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div id="top-header">
+            <div class="container">
+                <ul class="header-links pull-left">
+                    <li><a href="#"><i class="fa fa-phone"></i> +216 55 555 555</a></li>
+                    <li><a href="#"><i class="fa fa-envelope-o"></i> contact@electro.tn</a></li>
+                    <li><a href="#"><i class="fa fa-map-marker"></i> Tunisia</a></li>
+                </ul>
+
+                <ul class="header-links pull-right">
+                    <li><a href="#"><i class="fa fa-money"></i> TND</a></li>
+                    <li><a href="{{ path('app_login') }}"><i class="fa fa-user-o"></i> Account</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="header">
+            <div class="container">
+                <div class="row">
+
+                    <!-- LOGO -->
+                    <div class="col-md-3">
+                        <div class="header-logo">
+                            <a href="{{ path('home') }}" class="logo">
+                                <img src="{{ asset('img/logo.png') }}" alt="Logo">
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- SEARCH -->
+                    <div class="col-md-6">
+                        <div class="header-search">
+                            <form method="get" action="#">
+                                <select class="input-select">
+                                    <option value="0">All Categories</option>
+                                    <option value="1">Laptops</option>
+                                    <option value="2">Smartphones</option>
+                                </select>
+                                <input class="input" name="q" placeholder="Search products">
+                                <button class="search-btn">Search</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- ACCOUNT -->
+                    <div class="col-md-3">
+                        <div class="header-ctn">
+
+                            <div>
+                                <a href="#">
+                                    <i class="fa fa-heart-o"></i>
+                                    <span>Your Wishlist</span>
+                                </a>
+                            </div>
+
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Your Cart</span>
+                                </a>
+                                <div class="cart-dropdown">
+                                    <div class="cart-list">
+                                        {# Dynamic cart items can be injected later #}
+                                    </div>
+
+                                    <div class="cart-summary">
+                                        <small>0 Item(s)</small>
+                                        <h5>TOTAL: 0 TND</h5>
+                                    </div>
+
+                                    <div class="cart-btns">
+                                        <a href="#">View Cart</a>
+                                        <a href="#">Checkout</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="menu-toggle">
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span>Menu</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- /HEADER -->
+
+    <!-- NAVIGATION -->
+    <nav id="navigation">
+        <div class="container">
+            <div id="responsive-nav">
+
+                <ul class="main-nav nav navbar-nav">
+
+                    <li class="{% if app.request.get('_route') == 'home' %}active{% endif %}">
+                        <a href="{{ path('home') }}">Home</a>
+                    </li>
+
+                    <li><a href="#">Hot Deals</a></li>
+                    <li><a href="#">Laptops</a></li>
+                    <li><a href="#">Smartphones</a></li>
+                    <li><a href="#">Cameras</a></li>
+                    <li><a href="#">Accessories</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- /NAVIGATION -->
+
+    <!-- MAIN CONTENT -->
+    <main>
         {% block body %}{% endblock %}
-    </body>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+
+        <div class="section">
+            <div class="container">
+                <div class="row">
+
+                    <!-- About -->
+                    <div class="col-md-3">
+                        <div class="footer">
+                            <h3 class="footer-title">About Us</h3>
+                            <p>Electro — Best electro shop in Tunisia.</p>
+                            <ul class="footer-links">
+                                <li><a href="#"><i class="fa fa-map-marker"></i> Tunis</a></li>
+                                <li><a href="#"><i class="fa fa-phone"></i> +216 55 555 555</a></li>
+                                <li><a href="#"><i class="fa fa-envelope-o"></i> contact@electro.tn</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="col-md-3">
+                        <div class="footer">
+                            <h3 class="footer-title">Categories</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Hot Deals</a></li>
+                                <li><a href="#">Laptops</a></li>
+                                <li><a href="#">Smartphones</a></li>
+                                <li><a href="#">Cameras</a></li>
+                                <li><a href="#">Accessories</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Information -->
+                    <div class="col-md-3">
+                        <div class="footer">
+                            <h3 class="footer-title">Information</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Service -->
+                    <div class="col-md-3">
+                        <div class="footer">
+                            <h3 class="footer-title">Service</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">My Account</a></li>
+                                <li><a href="#">View Cart</a></li>
+                                <li><a href="#">Wishlist</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="bottom-footer">
+            <div class="container">
+                <center>
+                    <span class="copyright">
+                        © 2025 Electro. All rights reserved.
+                    </span>
+                </center>
+            </div>
+        </div>
+
+    </footer>
+    <!-- /FOOTER -->
+
+    {# JAVASCRIPT #}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+
+    {% block javascripts %}{% endblock %}
+</body>
 </html>
