@@ -6,224 +6,210 @@
 
     <title>{% block title %}Electro{% endblock %}</title>
 
-    {# Favicon #}
     <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
 
-    {# Google Fonts #}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700">
 
-    {# CSS #}
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    {% block stylesheets %}{% endblock %}
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div id="top-header">
-            <div class="container">
-                <ul class="header-links pull-left">
-                    <li><a href="#"><i class="fa fa-phone"></i> +216 55 555 555</a></li>
-                    <li><a href="#"><i class="fa fa-envelope-o"></i> contact@electro.tn</a></li>
-                    <li><a href="#"><i class="fa fa-map-marker"></i> Tunisia</a></li>
-                </ul>
+<header>
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-left">
+                <li><a href="#"><i class="fa fa-phone"></i> +216 55 555 555</a></li>
+                <li><a href="#"><i class="fa fa-envelope-o"></i> contact@electro.tn</a></li>
+                <li><a href="#"><i class="fa fa-map-marker"></i> Tunisia</a></li>
+            </ul>
 
-                <ul class="header-links pull-right">
-                    <li><a href="#"><i class="fa fa-money"></i> TND</a></li>
-                    <li><a href="{{ path('app_login') }}"><i class="fa fa-user-o"></i> Account</a></li>
-                </ul>
-            </div>
+            <ul class="header-links pull-right">
+                <li><a href="#"><i class="fa fa-money"></i> TND</a></li>
+                <li><a href="{{ path('app_login') }}"><i class="fa fa-user-o"></i> Account</a></li>
+            </ul>
         </div>
+    </div>
 
-        <div id="header">
-            <div class="container">
-                <div class="row">
+    <div id="header">
+        <div class="container">
+            <div class="row">
 
-                    <!-- LOGO -->
-                    <div class="col-md-3">
-                        <div class="header-logo">
-                            <a href="{{ path('home') }}" class="logo">
-                                <img src="{{ asset('img/logo.png') }}" alt="Logo">
+                <div class="col-md-3">
+                    <div class="header-logo">
+                        <a href="{{ path('home') }}" class="logo">
+                            <img src="{{ asset('img/logo.png') }}" alt="Logo">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="header-search">
+                        <form method="get" action="#">
+                            <select class="input-select">
+
+                                <option value="">All Categories</option>
+                                {% for c in get_categories() %}
+                                    <option value="{{ c.id }}">{{ c.nom }}</option>
+                                {% endfor %}
+
+                            </select>
+
+                            <input class="input" name="q" placeholder="Search products">
+                            <button class="search-btn">Search</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="header-ctn">
+                        <div>
+                            <a href="#">
+                                <i class="fa fa-heart-o"></i>
+                                <span>Your Wishlist</span>
                             </a>
                         </div>
-                    </div>
 
-                    <!-- SEARCH -->
-                    <div class="col-md-6">
-                        <div class="header-search">
-                            <form method="get" action="#">
-                                <select class="input-select">
-                                    <option value="0">All Categories</option>
-                                    <option value="1">Laptops</option>
-                                    <option value="2">Smartphones</option>
-                                </select>
-                                <input class="input" name="q" placeholder="Search products">
-                                <button class="search-btn">Search</button>
-                            </form>
-                        </div>
-                    </div>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Your Cart</span>
+                            </a>
+                            <div class="cart-dropdown">
+                                <div class="cart-list"></div>
 
-                    <!-- ACCOUNT -->
-                    <div class="col-md-3">
-                        <div class="header-ctn">
+                                <div class="cart-summary">
+                                    <small>0 Item(s)</small>
+                                    <h5>TOTAL: 0 TND</h5>
+                                </div>
 
-                            <div>
-                                <a href="#">
-                                    <i class="fa fa-heart-o"></i>
-                                    <span>Your Wishlist</span>
-                                </a>
-                            </div>
-
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span>Your Cart</span>
-                                </a>
-                                <div class="cart-dropdown">
-                                    <div class="cart-list">
-                                        {# Dynamic cart items can be injected later #}
-                                    </div>
-
-                                    <div class="cart-summary">
-                                        <small>0 Item(s)</small>
-                                        <h5>TOTAL: 0 TND</h5>
-                                    </div>
-
-                                    <div class="cart-btns">
-                                        <a href="#">View Cart</a>
-                                        <a href="#">Checkout</a>
-                                    </div>
+                                <div class="cart-btns">
+                                    <a href="#">View Cart</a>
+                                    <a href="#">Checkout</a>
                                 </div>
                             </div>
-
-                            <div class="menu-toggle">
-                                <a href="#">
-                                    <i class="fa fa-bars"></i>
-                                    <span>Menu</span>
-                                </a>
-                            </div>
-
                         </div>
-                    </div>
 
+                        <div class="menu-toggle">
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span>Menu</span>
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
         </div>
-    </header>
-    <!-- /HEADER -->
+    </div>
+</header>
 
-    <!-- NAVIGATION -->
-    <nav id="navigation">
-        <div class="container">
-            <div id="responsive-nav">
+<nav id="navigation">
+    <div class="container">
+        <div id="responsive-nav">
 
-                <ul class="main-nav nav navbar-nav">
+            <ul class="main-nav nav navbar-nav">
 
-                    <li class="{% if app.request.get('_route') == 'home' %}active{% endif %}">
-                        <a href="{{ path('home') }}">Home</a>
+                <li class="{% if app.request.get('_route') == 'home' %}active{% endif %}">
+                    <a href="{{ path('home') }}">Home</a>
+                </li>
+
+                {% for c in get_categories() %}
+                    <li>
+                        <a href="{{ path('categorie_show', { id: c.id }) }}">{{ c.nom }}</a>
                     </li>
+                {% endfor %}
 
-                    <li><a href="#">Hot Deals</a></li>
-                    <li><a href="#">Laptops</a></li>
-                    <li><a href="#">Smartphones</a></li>
-                    <li><a href="#">Cameras</a></li>
-                    <li><a href="#">Accessories</a></li>
+            </ul>
 
-                </ul>
-            </div>
         </div>
-    </nav>
-    <!-- /NAVIGATION -->
+    </div>
+</nav>
 
-    <!-- MAIN CONTENT -->
-    <main>
-        {% block body %}{% endblock %}
-    </main>
+<main>
+    {% block body %}{% endblock %}
+</main>
 
-    <!-- FOOTER -->
-    <footer id="footer">
+<footer id="footer">
 
-        <div class="section">
-            <div class="container">
-                <div class="row">
+    <div class="section">
+        <div class="container">
+            <div class="row">
 
-                    <!-- About -->
-                    <div class="col-md-3">
-                        <div class="footer">
-                            <h3 class="footer-title">About Us</h3>
-                            <p>Electro — Best electro shop in Tunisia.</p>
-                            <ul class="footer-links">
-                                <li><a href="#"><i class="fa fa-map-marker"></i> Tunis</a></li>
-                                <li><a href="#"><i class="fa fa-phone"></i> +216 55 555 555</a></li>
-                                <li><a href="#"><i class="fa fa-envelope-o"></i> contact@electro.tn</a></li>
-                            </ul>
-                        </div>
+                <div class="col-md-3">
+                    <div class="footer">
+                        <h3 class="footer-title">About Us</h3>
+                        <p>Electro — Best electro shop in Tunisia.</p>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="fa fa-map-marker"></i> Tunis</a></li>
+                            <li><a href="#"><i class="fa fa-phone"></i> +216 55 555 555</a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i> contact@electro.tn</a></li>
+                        </ul>
                     </div>
-
-                    <!-- Categories -->
-                    <div class="col-md-3">
-                        <div class="footer">
-                            <h3 class="footer-title">Categories</h3>
-                            <ul class="footer-links">
-                                <li><a href="#">Hot Deals</a></li>
-                                <li><a href="#">Laptops</a></li>
-                                <li><a href="#">Smartphones</a></li>
-                                <li><a href="#">Cameras</a></li>
-                                <li><a href="#">Accessories</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Information -->
-                    <div class="col-md-3">
-                        <div class="footer">
-                            <h3 class="footer-title">Information</h3>
-                            <ul class="footer-links">
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Service -->
-                    <div class="col-md-3">
-                        <div class="footer">
-                            <h3 class="footer-title">Service</h3>
-                            <ul class="footer-links">
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">View Cart</a></li>
-                                <li><a href="#">Wishlist</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
                 </div>
+
+                <div class="col-md-3">
+                    <div class="footer">
+                        <h3 class="footer-title">Categories</h3>
+                        <ul class="footer-links">
+
+                            {% for c in get_categories() %}
+                                <li>
+                                    <a href="{{ path('categorie_show', { id: c.id }) }}">
+                                        {{ c.nom }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="footer">
+                        <h3 class="footer-title">Information</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="footer">
+                        <h3 class="footer-title">Service</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">My Account</a></li>
+                            <li><a href="#">View Cart</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </div>
 
-        <div id="bottom-footer">
-            <div class="container">
-                <center>
-                    <span class="copyright">
-                        © 2025 Electro. All rights reserved.
-                    </span>
-                </center>
-            </div>
+    <div id="bottom-footer">
+        <div class="container">
+            <center>
+                <span class="copyright">
+                    © 2025 Electro. All rights reserved.
+                </span>
+            </center>
         </div>
+    </div>
 
-    </footer>
-    <!-- /FOOTER -->
+</footer>
 
-    {# JAVASCRIPT #}
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/main.js') }}"></script>
 
-    {% block javascripts %}{% endblock %}
 </body>
 </html>

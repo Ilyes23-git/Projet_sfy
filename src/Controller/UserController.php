@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 
 #[Route('/utilisateur', name: 'utilisateur')]
-final class ControllerUserController extends AbstractController
+final class UserController extends AbstractController
 {
     #[Route('/add', name: 'add_user')]
     public function submit(Request $request,EntityManagerInterface $em): Response
