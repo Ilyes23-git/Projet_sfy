@@ -40,7 +40,7 @@
 
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="{{ path('home') }}" class="logo">
+                        <a href="" class="logo">
                             <img src="{{ asset('img/logo.png') }}" alt="Logo">
                         </a>
                     </div>
@@ -50,11 +50,6 @@
                     <div class="header-search">
                         <form method="get" action="#">
                             <select class="input-select">
-
-                                <option value="">All Categories</option>
-                                {% for c in get_categories() %}
-                                    <option value="{{ c.id }}">{{ c.nom }}</option>
-                                {% endfor %}
 
                             </select>
 
@@ -115,14 +110,8 @@
             <ul class="main-nav nav navbar-nav">
 
                 <li class="{% if app.request.get('_route') == 'home' %}active{% endif %}">
-                    <a href="{{ path('home') }}">Home</a>
+                    <a href="">Home</a>
                 </li>
-
-                {% for c in get_categories() %}
-                    <li>
-                        <a href="{{ path('categorie_show', { id: c.id }) }}">{{ c.nom }}</a>
-                    </li>
-                {% endfor %}
 
             </ul>
 
@@ -156,14 +145,6 @@
                     <div class="footer">
                         <h3 class="footer-title">Categories</h3>
                         <ul class="footer-links">
-
-                            {% for c in get_categories() %}
-                                <li>
-                                    <a href="{{ path('categorie_show', { id: c.id }) }}">
-                                        {{ c.nom }}
-                                    </a>
-                                </li>
-                            {% endfor %}
 
                         </ul>
                     </div>

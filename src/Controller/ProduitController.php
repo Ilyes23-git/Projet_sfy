@@ -17,7 +17,7 @@ final class ProduitController extends AbstractController
     {
         $cat = $rep1->findAll();
         $pr = $rep->findAll();
-        return $this->render('', [
+        return $this->render('home/home.html.twig', [
             'produits' => $pr,
             'categorie' => $cat,
         ]);
