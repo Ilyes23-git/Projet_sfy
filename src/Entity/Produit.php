@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ProduitRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -44,6 +46,12 @@ class Produit
     #[ORM\ManyToOne(inversedBy: 'produit')]
     private ?Categorie $categorie = null;
 
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
+    private $image;
+
+    #[Assert\File(maxSize: '5M')]
+    private ?File $imageFile = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -57,7 +65,6 @@ class Produit
     public function setReference(string $reference): static
     {
         $this->reference = $reference;
-
         return $this;
     }
 
@@ -69,7 +76,6 @@ class Produit
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -81,7 +87,6 @@ class Produit
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -93,7 +98,6 @@ class Produit
     public function setPrix(float $prix): static
     {
         $this->prix = $prix;
-
         return $this;
     }
 
@@ -105,7 +109,6 @@ class Produit
     public function setPrixPromo(float $prixPromo): static
     {
         $this->prixPromo = $prixPromo;
-
         return $this;
     }
 
@@ -117,7 +120,6 @@ class Produit
     public function setStock(int $stock): static
     {
         $this->stock = $stock;
-
         return $this;
     }
 
@@ -129,7 +131,6 @@ class Produit
     public function setEstDisponible(bool $estDisponible): static
     {
         $this->estDisponible = $estDisponible;
-
         return $this;
     }
 
@@ -141,7 +142,6 @@ class Produit
     public function setDateCreation(\DateTime $dateCreation): static
     {
         $this->dateCreation = $dateCreation;
-
         return $this;
     }
 
@@ -153,7 +153,6 @@ class Produit
     public function setCommande(?Commande $commande): static
     {
         $this->commande = $commande;
-
         return $this;
     }
 
@@ -165,6 +164,36 @@ class Produit
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        if ($this->image) {
+            // Return base64 string to display in EasyAdmin
+            return 'data:image/jpeg;base64,' . base64_encode(stream_get_contents($this->image));
+        }
+        return null;
+    }
+
+    public function setImage($image): static
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): static
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile) {
+            $this->image = fopen($imageFile->getPathname(), 'rb');
+        }
 
         return $this;
     }
