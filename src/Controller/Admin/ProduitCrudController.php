@@ -29,7 +29,7 @@ class ProduitCrudController extends AbstractCrudController
             TextField::new('nom', 'Nom du produit'),
             TextareaField::new('description'),
             MoneyField::new('prix')->setCurrency('TND'),
-            MoneyField::new('prixPromo')->setCurrency('%'),
+            MoneyField::new('prixPromo')->setCurrency('TND'),
             IntegerField::new('stock'),
             BooleanField::new('estDisponible', 'Disponible ?'),
             DateTimeField::new('dateCreation', 'Date de création'),

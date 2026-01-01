@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Avis;
+use App\Entity\Promotion;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -52,10 +54,10 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Projet Sfy');
+            ->setTitle('<img src="/img/logo.png" height="35">');
     }
-    
-    
+
+
     public function configureMenuItems(): iterable
     {
     yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
@@ -65,7 +67,10 @@ class DashboardController extends AbstractDashboardController
     yield MenuItem::linkToCrud('Categories', 'fa fa-tags', Categorie::class);
     yield MenuItem::linkToCrud('Commandes', 'fa fa-shopping-cart', Commande::class);
     yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
+    yield MenuItem::linkToCrud('Promotions', 'fa fa-percent', Promotion::class);
+    yield MenuItem::linkToCrud('Avis', 'fa fa-eye', Avis::class);
    }
 
-    }
+
+}
 

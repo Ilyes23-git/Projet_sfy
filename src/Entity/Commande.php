@@ -34,12 +34,13 @@ class Commande
     /**
      * @var Collection<int, Produit>
      */
-    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'commande')]
-    private Collection $produit;
+    #[ORM\ManyToMany(targetEntity: Produit::class, mappedBy: 'commande')]
+    private Collection $produits;
 
     public function __construct()
     {
         $this->produit = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,16 +111,16 @@ class Commande
     /**
      * @return Collection<int, Produit>
      */
-    public function getProduit(): Collection
+    public function getProduits(): Collection
     {
-        return $this->produit;
+        return $this->produits;
     }
 
     public function addProduit(Produit $produit): static
     {
-        if (!$this->produit->contains($produit)) {
-            $this->produit->add($produit);
-            $produit->setCommande($this);
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->addCommande($this);
         }
 
         return $this;
@@ -127,11 +128,8 @@ class Commande
 
     public function removeProduit(Produit $produit): static
     {
-        if ($this->produit->removeElement($produit)) {
-            // set the owning side to null (unless already changed)
-            if ($produit->getCommande() === $this) {
-                $produit->setCommande(null);
-            }
+        if ($this->produits->removeElement($produit)) {
+            $produit->removeCommande($this);
         }
 
         return $this;
