@@ -1,0 +1,11 @@
+.ea-sidebar {
+    background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+}
+
+.ea-sidebar a {
+    color: #eaeaea;
+}
+
+.btn-primary {
+    background-color: #00b4d8;
+}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -41,9 +43,6 @@ class Produit
     private ?\DateTime $dateCreation = null;
 
     #[ORM\ManyToOne(inversedBy: 'produit')]
-    private ?Commande $commande = null;
-
-    #[ORM\ManyToOne(inversedBy: 'produit')]
     private ?Categorie $categorie = null;
 
     #[ORM\Column(type: Types::BLOB, nullable: true)]
@@ -51,6 +50,31 @@ class Produit
 
     #[Assert\File(maxSize: '5M')]
     private ?File $imageFile = null;
+
+    /**
+     * @var Collection<int, Commande>
+     */
+    #[ORM\ManyToMany(targetEntity: Commande::class, inversedBy: 'produits')]
+    private Collection $commande;
+
+    /**
+     * @var Collection<int, Avis>
+     */
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'produit')]
+    private Collection $avis;
+
+    /**
+     * @var Collection<int, Promotion>
+     */
+    #[ORM\ManyToMany(targetEntity: Promotion::class, mappedBy: 'duréePromotion')]
+    private Collection $promotions;
+
+    public function __construct()
+    {
+        $this->commande = new ArrayCollection();
+        $this->avis = new ArrayCollection();
+        $this->promotions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -193,6 +217,79 @@ class Produit
 
         if ($imageFile) {
             $this->image = fopen($imageFile->getPathname(), 'rb');
+        }
+
+        return $this;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commande->contains($commande)) {
+            $this->commande->add($commande);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        $this->commande->removeElement($commande);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): static
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis->add($avi);
+            $avi->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): static
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getProduit() === $this) {
+                $avi->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Promotion>
+     */
+    public function getPromotions(): Collection
+    {
+        return $this->promotions;
+    }
+
+    public function addPromotion(Promotion $promotion): static
+    {
+        if (!$this->promotions->contains($promotion)) {
+            $this->promotions->add($promotion);
+            $promotion->addDurEPromotion($this);
+        }
+
+        return $this;
+    }
+
+    public function removePromotion(Promotion $promotion): static
+    {
+        if ($this->promotions->removeElement($promotion)) {
+            $promotion->removeDurEPromotion($this);
         }
 
         return $this;
