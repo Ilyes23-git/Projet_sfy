@@ -13,6 +13,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+
+
 
 class ProduitCrudController extends AbstractCrudController
 {
@@ -28,8 +31,9 @@ class ProduitCrudController extends AbstractCrudController
             TextField::new('reference', 'Référence'),
             TextField::new('nom', 'Nom du produit'),
             TextareaField::new('description'),
-            MoneyField::new('prix')->setCurrency('TND'),
-            MoneyField::new('prixPromo')->setCurrency('TND'),
+            AssociationField::new('categorie', 'Catégorie'),
+            IntegerField::new('prix' , 'PrixTND'),
+            IntegerField::new('prixPromo', 'Promotion (%)'),
             IntegerField::new('stock'),
             BooleanField::new('estDisponible', 'Disponible ?'),
             DateTimeField::new('dateCreation', 'Date de création'),
@@ -42,3 +46,7 @@ class ProduitCrudController extends AbstractCrudController
         ];
     }
 }
+
+
+
+

@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="breadcrumb" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Checkout</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="{{ path('produit_affichage') }}">Home</a></li>
+                    <li><a href="{{ path('cart_index') }}">Cart</a></li>
+                    <li class="active">Checkout</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION: Your Order Centered -->
+<div class="section" style="min-height: 100vh; display: flex; align-items: center; justify-content: center">
+    <div class="order-details" style="width: 600px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-radius: 10px;">
+        <div class="section-title text-center">
+            <h3 class="title">Your Order</h3>
+        </div>
+        
+        {% if cartItems|length > 0 %}
+        <form action="{{ path('checkout_place') }}" method="POST">
+            <div class="order-summary">
+                <div class="order-col">
+                    <div><strong>PRODUCT</strong></div>
+                    <div><strong>QTY</strong></div>
+                    <div><strong>TOTAL</strong></div>
+                </div>
+                <div class="order-products">
+                    {% for item in cartItems %}
+                    <div class="order-col">
+                        <div>{{ item.produit.nom }}</div>
+                        <div>{{ item.quantity }}x</div>
+                        <div>{{ item.total|number_format(2, '.', ',') }} TND</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="order-col">
+                    <div>Subtotal</div>
+                    <div></div>
+                    <div><strong>{{ total|number_format(2, '.', ',') }} TND</strong></div>
+                </div>
+                <div class="order-col">
+                    <div>Shipping fee</div>
+                    <div></div>
+                    <div><strong>7.00 TND</strong></div>
+                </div>
+                <div class="order-col">
+                    <div><strong>TOTAL</strong></div>
+                    <div></div>
+                    <div><strong class="order-total">{{ (total + 7)|number_format(2, '.', ',') }} TND</strong></div>
+                </div>
+            </div>
+
+            <div class="payment-method mt-4">
+                <h5 class="mb-3">Payment Method</h5>
+                <div class="input-radio">
+                    <input type="radio" name="payment" id="payment-1" value="bank_transfer" checked>
+                    <label for="payment-1">
+                        <span></span>
+                        Direct Bank Transfer
+                    </label>
+                </div>
+                <div class="input-radio">
+                    <input type="radio" name="payment" id="payment-2" value="cash">
+                    <label for="payment-2">
+                        <span></span>
+                        Cash on Delivery
+                    </label>
+                </div>
+            </div>
+
+            <div class="shipping-address mt-4">
+                <h5 class="mb-3">Shipping Address</h5>
+                <div class="form-group">
+                    <input type="text" name="address" class="form-control" placeholder="Full Street Address" required>
+                </div>
+                <div class="form-group mt-2">
+                    <input type="text" name="city" class="form-control" placeholder="City" required>
+                </div>
+                <div class="form-group mt-2">
+                    <input type="text" name="zip_code" class="form-control" placeholder="ZIP Code" required>
+                </div>
+            </div>
+
+            <div class="input-checkbox mt-4">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">
+                    <span></span>
+                    I've read and accept the <a href="#" data-toggle="modal" data-target="#termsModal">terms & conditions</a>
+                </label>
+            </div>
+
+            <button type="submit" class="primary-btn order-submit" style="display: block; width: 100%; text-align: center; margin-top: 20px; padding: 12px;">
+                Place Order
+            </button>
+            
+            <div class="text-center mt-3">
+                <a href="{{ path('cart_index') }}" class="text-muted">← Back to Cart</a>
+            </div>
+        </form>
+        {% else %}
+        <div class="text-center py-5">
+            <h4 class="text-muted">Your cart is empty</h4>
+            <p class="mt-3">
+                <a href="{{ path('produit_affichage') }}" class="btn btn-primary">
+                    Continue Shopping
+                </a>
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Terms & Conditions</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Your terms and conditions text here...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

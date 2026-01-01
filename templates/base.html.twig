@@ -78,25 +78,53 @@
 
                 <div class="col-md-3">
                     <div class="header-ctn">
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-shopping-cart"></i>
-                                <span>Your Cart</span>
-                            </a>
-                            <div class="cart-dropdown">
-                                <div class="cart-list"></div>
+                       <div class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-shopping-cart"></i>
+        <span>Your Cart</span>
+        {% set cart = app.session.get('cart', []) %}
+        {% set itemCount = 0 %}
+        {% for quantity in cart %}
+            {% set itemCount = itemCount + quantity %}
+        {% endfor %}
+        {% if itemCount > 0 %}
+            <span class="cart-count">{{ itemCount }}</span>
+        {% endif %}
+    </a>
+    <div class="cart-dropdown">
+        <div class="cart-list">
+            {% if itemCount > 0 %}
+                <div class="text-center p-3">
+                    <i class="fa fa-shopping-cart fa-2x text-primary mb-2"></i>
+                    <h5>{{ itemCount }} item(s) in cart</h5>
+                    <p class="text-muted small">View full cart for details</p>
+                </div>
+            {% else %}
+                <div class="empty-cart text-center p-4">
+                    <i class="fa fa-shopping-cart fa-3x text-muted mb-3"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            {% endif %}
+        </div>
 
-                                <div class="cart-summary">
-                                    <small>0 Item(s)</small>
-                                    <h5>TOTAL: 0 TND</h5>
-                                </div>
+        <div class="cart-summary">
+            <small>
+                {% if itemCount == 1 %}
+                    1 Item
+                {% else %}
+                    {{ itemCount }} Items
+                {% endif %}
+            </small>
+        </div>
 
-                                <div class="cart-btns">
-                                    <a href="#">View Cart</a>
-                                    <a href="#">Checkout</a>
-                                </div>
-                            </div>
-                        </div>
+        <div class="cart-btns">
+            <a href="{{ path('cart_index') }}">View Cart</a>
+            {% if itemCount > 0 %}
+                    <a href="{{ path('checkout_index') }}">Checkout</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
                         <div class="menu-toggle">
                             <a href="#">

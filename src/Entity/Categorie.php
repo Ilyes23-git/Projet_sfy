@@ -90,4 +90,11 @@ class Categorie
 
         return $this;
     }
+    // src/Entity/Categorie.php
+
+   public function __toString(): string
+   {
+        return $this->nom ?? 'Catégorie';
+   }
+
 }

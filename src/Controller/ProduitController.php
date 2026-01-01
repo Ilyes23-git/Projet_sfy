@@ -9,11 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('Produits', name: 'produit')]
+// Remove the class-level route annotation and put it on the method instead
 final class ProduitController extends AbstractController
 {
-    #[Route('/list', name: 'affichage_produits')]
-    public function affichage(ProduitRepository $rep,CategorieRepository $rep1): Response
+    #[Route('/Produits/list', name: 'produit_affichage')]
+    public function affichage(ProduitRepository $rep, CategorieRepository $rep1): Response
     {
         $cat = $rep1->findAll();
         $pr = $rep->findAll();
