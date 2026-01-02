@@ -79,7 +79,7 @@
                 {% for produit in produits %}
                     <div class="product">
                         <div class="product-img">
-                            <img src="{{ asset('img/product07.png') }}" alt="{{ produit.nom }}">
+                            <img src="{{ produit.image }}" alt="{{ produit.nom }}">
                             <div class="product-label">
                                 {% if produit.prixPromo %}
                                     <span class="sale">-{{ produit.prixPromo }}%</span>
@@ -92,10 +92,10 @@
                             <h3 class="product-name"><a href="#">{{ produit.nom }}</a></h3>
                             <h4 class="product-price">
                                 {% if produit.prixPromo %}
-                                    ${{ (produit.prix * (1 - produit.prixPromo / 100))|number_format(2, '.', ',') }}
-                                    <del class="product-old-price">${{ produit.prix|number_format(2, '.', ',') }}</del>
+                                     {{ (produit.prix * (1 - produit.prixPromo / 100))|number_format(2, '.', ',') }} TND
+                                    <del class="product-old-price"> {{ produit.prix|number_format(2, '.', ',') }} TND</del>
                                 {% else %}
-                                    ${{ produit.prix|number_format(2, '.', ',') }}
+                                     {{ produit.prix|number_format(2, '.', ',') }} TND
                                 {% endif %}
                             </h4>
                             <div class="product-rating">
@@ -111,9 +111,9 @@
                             </div>
                         </div>
                         <div class="add-to-cart">
-                            <button class="add-to-cart-btn">
+                            <<a href="{{ path('cart_add', {'id': produit.id})}}" class="add-to-cart-btn">
                                 <i class="fa fa-shopping-cart"></i> add to cart
-                            </button>
+                            <\a>
                         </div>
                     </div>
                 {% else %}
